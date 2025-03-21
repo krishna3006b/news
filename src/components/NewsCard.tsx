@@ -10,9 +10,14 @@ interface NewsCardProps {
 }
 
 export function NewsCard({ news, index }: NewsCardProps) {
+  console.log(news);
+
+  // Remove "ipfs://" prefix for the route
+  const cleanIpfsHash = news.ipfsHash.replace("ipfs://", "").replace(/\/0$/, "");
+
   return (
-    <Link 
-      to={`/article/${news.index}`}
+    <Link
+      to={`/article/${cleanIpfsHash}`} // Use the cleaned hash in the URL
       className="block transition-all duration-300 transform hover:-translate-y-1"
       style={{ animationDelay: `${index * 100}ms` }}
     >
@@ -25,14 +30,14 @@ export function NewsCard({ news, index }: NewsCardProps) {
             )}
           </div>
         </CardHeader>
-        
+
         <CardContent className="px-6">
           <p className="text-muted-foreground text-sm line-clamp-3">
             This article was uploaded to the blockchain and stored on IPFS, 
             ensuring its authenticity and immutability.
           </p>
         </CardContent>
-        
+
         <CardFooter className="pt-2 pb-4 px-6 flex justify-between text-xs text-muted-foreground">
           <span>By {truncateAddress(news.author)}</span>
           <span>{formatDate(news.timestamp)}</span>
