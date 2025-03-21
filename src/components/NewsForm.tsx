@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { uploadToIPFS } from "@/lib/ipfs";
-import NewsContent from "@/lib/ipfs";
+import {NewsContent} from "@/lib/ipfs";
 import { uploadNews } from "@/lib/ethereum";
 import { verifyNewsContent } from "@/lib/openai";
 import { toast } from "@/hooks/use-toast";
@@ -58,14 +58,15 @@ export function NewsForm({ onSuccess, walletAddress }: NewsFormProps) {
         title: title.trim(),
         content: content.trim(),
         author: walletAddress,
+        verificationScore: 0,
         timestamp: Date.now(),
       };
       
       setCurrentStep("Verifying news content with AI...");
       const verificationScore = await verifyNewsContent(newsData);
-      
+
       newsData.verificationScore = verificationScore;
-      
+      console.log("News content verified with score:", verificationScore);
       setCurrentStep("Uploading to IPFS...");
       const ipfsHash = await uploadToIPFS(newsData);
       

@@ -10,14 +10,11 @@ interface NewsCardProps {
 }
 
 export function NewsCard({ news, index }: NewsCardProps) {
-  console.log(news);
-
-  // Remove "ipfs://" prefix for the route
   const cleanIpfsHash = news.ipfsHash.replace("ipfs://", "").replace(/\/0$/, "");
 
   return (
     <Link
-      to={`/article/${cleanIpfsHash}`} // Use the cleaned hash in the URL
+      to={`/article/${cleanIpfsHash}`}
       className="block transition-all duration-300 transform hover:-translate-y-1"
       style={{ animationDelay: `${index * 100}ms` }}
     >
